@@ -1,4 +1,13 @@
+/*
+    File: simonDisplay.c
+    Author: Michael Norris
+    Date: 5/27/2022
+    Purpose: Handles the drawing and erasing of buttons and enlarged squares
 
+
+
+
+*/
 #include "simonDisplay.h"
 #include "display.h"
 #include "utils.h"

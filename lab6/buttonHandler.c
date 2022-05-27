@@ -2,7 +2,7 @@
     File: buttonHandler.c
     Author: Michael Norris
     Date: 5/24/2022
-    Purpose:
+    Purpose: Handles the button input on the touch screen
 
 
 
@@ -26,7 +26,7 @@
 
 // a value that lets the SM know if it is enabled or not
 static uint8_t handlerEnable = 0;
-//a quick 1 cycle timer to increment for the ADC to setlte
+//a quick 1 cycle timer to increment for the ADC to settle
 static uint8_t adcSettleTimer = 0;
 //a value that lets us know whether the buttons have already been drawn 
 //to avoid flashing the screen to redraw
