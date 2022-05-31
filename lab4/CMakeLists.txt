@@ -1,0 +1,5 @@
+add_executable(lab4.elf main.c)
+add_library(clock clockDisplay.c clockControl.c screenDefines.h)
+target_link_libraries(clock ${330_LIBS})
+target_link_libraries(lab4.elf ${330_LIBS} clock intervalTimer)
+set_target_properties(lab4.elf PROPERTIES LINKER_LANGUAGE CXX)
