@@ -20,6 +20,10 @@
 #include "globals.h"
 #include "buttons.h"
 
+
+//if the user doesnt press the screen for 30 cycles (or three seconds) it should time out
+#define TIME_OUT_CYCLES 30
+
 //a flag for enabling and disabling the verify sequence machine
 static uint8_t verifySequenceEnabled = 0;
 //a flag that shows if the sequence verification has finished
@@ -42,7 +46,7 @@ enum  verifySequence_st_t
     st_verify_press,        //state to verify that the correct button press was made
     st_increment_seqeunce,  //state that icnrements the positon in the seq then returns to button enable
     st_finished             //state for when it is all finished
-}
+};
 
 static enum verifySequence_st_t currentState = st_init;
 
@@ -115,7 +119,7 @@ void verifySequence_tick()
             if(!verifySequenceEnabled)
             {
                 //go back to the beginning
-                currentState = st_init
+                currentState = st_init;
             }
             else//otherwise
             {
@@ -128,16 +132,73 @@ void verifySequence_tick()
             if(!verifySequenceEnabled)
             {
                 //go back to the beginning
-                currentState = st_init
+                currentState = st_init;
+            }
+            else//if not
+            {
+                if (display_isTouched())//do not want the timer to time out while the user is tocuhing it
+                {
+                    //continually reset this till the screen is released
+                    userTimeOutTimer = 0;
+                }
+                else if (buttonHandler_releaseDetected())//if the screen is untouched check if its been released or just never touched
+                {
+                    //move to the state to verify the press against the sequence
+                    currentState = st_verify_press;
+                }
+                else if (userTimeOutTimer == TIME_OUT_CYCLES)//if a timeout happens while waiting for a press
+                {
+                    //raise the timeout flag
+                    userTimedOut = 1;
+                    //erase all the buttons
+                    simonDisplay_eraseAllButtons();
+                    //move to the done state
+                    currentState = st_finished;
+                }
             }
             break;
         case st_verify_press:
-
+            //if we have been DISABLED
+            if(!verifySequenceEnabled)
+            {
+                //go back to the beginning
+                currentState = st_init;
+            }
+            else//if not
+            {
+                currentState = st_increment_seqeunce;
+            }
             break;
         case st_increment_seqeunce:
-
+            //if we have been DISABLED
+            if(!verifySequenceEnabled)
+            {
+                //go back to the beginning
+                currentState = st_init;
+            }
+            else//if not
+            {
+                //first check if we have reached the end of the sequence or if the user made an error
+                if(sequencePos == (globals_getSequenceIterationLength()) || userWrongPress)
+                {
+                    //erase all the buttons and move to the finished state
+                    simonDisplay_eraseAllButtons();
+                    currentState = st_finished;
+                }
+                else//if not
+                {
+                    //increment the sequence and restart the verification process
+                    sequencePos++;
+                    currentState = st_enable_button;
+                }
+            }
             break;
         case st_finished:
+            if (!verifySequenceEnabled)//wait to be disabled
+            {
+                //once disabled, move to the start
+                currentState = st_init;
+            }
 
             break;
     }
@@ -146,23 +207,33 @@ void verifySequence_tick()
     switch(currentState)
     {
         case st_init:
-
+            //if we have been disabled and moving back here we wann disable the button handler as well
+            buttonHandler_disable();
             break;
         case st_enable_button:
             //enable the button handler sm
-            buttonHandler_enable;
+            buttonHandler_enable();
             break;
         case st_wait_release:
-
+            //increment this timer while waiting for the button to be released
+            userTimeOutTimer++;
             break;
         case st_verify_press:
-
+            //dsiable the buttonhandler machine now
+            buttonHandler_disable();
+            //check if the press matches the value in the sequence and if not
+            if(globals_getSequenceValue(sequencePos) != buttonHandler_getRegionNumber())
+            {
+                //raise the error made flag
+                userWrongPress = 1;
+            }
             break;
         case st_increment_seqeunce:
 
             break;
         case st_finished:
-
+            //raise the completed flag
+            verifySequenceComplete = 1;
             break;
     }
 }

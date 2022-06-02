@@ -33,6 +33,8 @@ static uint8_t adcSettleTimer = 0;
 //static uint8_t buttonsHaveBeenDrawn = 0;
 //a value to track when the touch screen has been released from being touched
 static uint8_t touchScreenIsReleased = 0;
+//a flag that tracks completeness of the sm
+static uint8_t buttonHandlerComplete = 0;
 // a variable to store the region returned
 static uint8_t screenRegion = REGION_INVALID;
 
@@ -117,7 +119,10 @@ bool buttonHandler_releaseDetected()
 }
 
 // Let's you know that the buttonHander is waiting in the interlock state.
-bool buttonHandler_isComplete();
+bool buttonHandler_isComplete()
+{
+    return buttonHandlerComplete;
+}
 
 // Standard tick function.
 void buttonHandler_tick()
@@ -192,8 +197,8 @@ void buttonHandler_tick()
             }
             break;
         case st_untouched:
-        //move to finished state
-         //if SM disabled during this state return to the initial state
+            //move to finished state
+            //if SM disabled during this state return to the initial state
             if (!handlerEnable)
             {
                 currentState = st_init;
@@ -204,7 +209,7 @@ void buttonHandler_tick()
             }
             break;
         case st_finished:
-            if(!handlerEnable)//wait for the machine to be disable to go back to the initial state
+            if(!handlerEnable)//wait for the machine to be disabled to go back to the initial state
             {
                 currentState = st_init;
             }
@@ -220,6 +225,7 @@ void buttonHandler_tick()
             adcSettleTimer = 0;
             touchScreenIsReleased = 0;
             screenRegion = REGION_INVALID;
+            buttonHandlerComplete = 0;
             break;
         case st_await_touch:
             break;
@@ -238,6 +244,7 @@ void buttonHandler_tick()
 
             break;
         case st_finished:
+            buttonHandlerComplete = 1;
             break;
     }
 

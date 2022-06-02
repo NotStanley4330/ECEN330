@@ -1,5 +1,5 @@
 add_executable(lab6.elf main.c)
-add_library(simonDisplay buttonHandler.c bhTester.c simonDisplay.c globals.c flashSequence.c fsTester.c)
+add_library(simonDisplay buttonHandler.c bhTester.c simonDisplay.c globals.c flashSequence.c fsTester.c verifySequence.c vsTester.c)
 target_link_libraries(simonDisplay ${330_LIBS})
 target_link_libraries(lab6.elf ${330_LIBS} simonDisplay intervalTimer)
 set_target_properties(lab6.elf PROPERTIES LINKER_LANGUAGE CXX)

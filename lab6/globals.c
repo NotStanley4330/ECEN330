@@ -13,7 +13,7 @@
 
 
 
-//this array will hold our sewuence, only containing values 0-3
+//this array will hold our sequence, only containing values 0-3
 static uint8_t simonSequence[GLOBALS_MAX_FLASH_SEQUENCE] = {0};
 //length of the sequence
 static uint8_t sequenceSize = 0;
