@@ -141,8 +141,8 @@ int main() {
       personalInterruptCount++;
       tickAll();
       interrupts_isrFlagGlobal = 0;
-      if (personalInterruptCount >= MAX_INTERRUPT_COUNT)
-        break;
+      // if (personalInterruptCount >= MAX_INTERRUPT_COUNT)
+      //   break;
       utils_sleep();
     }
   }

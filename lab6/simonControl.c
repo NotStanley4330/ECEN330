@@ -331,6 +331,9 @@ void simonControl_tick() {
       titleDrawn = 0;
       simonStarted = 0;
       newSequenceGenerate = 0;
+      userError = 0;
+      currentSequencePos = 1;
+      currentLength = SEQ_START_LEN;
       currentState = st_init;
     }
     break;
@@ -355,6 +358,9 @@ void simonControl_tick() {
       // set the started flag high so we can move to the next state
       simonStarted = 1;
     }
+    // have all the flags reset just in case
+    userError = 0;
+
     randSeed++; // we will increment the seed while just waiting here on the
                 // title screen
     break;
