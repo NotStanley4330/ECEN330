@@ -35,9 +35,9 @@ For questions, contact Brad Hutchings or Jeff Goeders, https://ece.byu.edu/
 // Uncomment one of the following lines to run Milestone 1, 2, 3, or 4    //////
 ////////////////////////////////////////////////////////////////////////////////
 // #define RUN_PROGRAM MILESTONE_1
-// #define RUN_PROGRAM MILESTONE_2
- #define RUN_PROGRAM MILESTONE_3
-// #define RUN_PROGRAM MILESTONE_4
+//#define RUN_PROGRAM MILESTONE_2
+//#define RUN_PROGRAM MILESTONE_3
+#define RUN_PROGRAM MILESTONE_4
 
 // If nothing is uncommented above, run milestone 4
 #ifndef RUN_PROGRAM
@@ -96,27 +96,27 @@ void tickAll() {
 }
 #endif
 
-// /****************************** RUN_SIMON_GAME ****************/
-// #if RUN_PROGRAM == MILESTONE_4
-// static void test_init() {
-//   display_init();
-//   leds_init(true);
-//   simonControl_init();
-//   buttonHandler_init();
-//   flashSequence_init();
-//   verifySequence_init();
-//   display_fillScreen(DISPLAY_BLACK);
-//   simonControl_enable();
-//   printf("Running the simon game.\n");
-// }
+/****************************** RUN_SIMON_GAME ****************/
+#if RUN_PROGRAM == MILESTONE_4
+static void test_init() {
+  display_init();
+  leds_init(true);
+  simonControl_init();
+  buttonHandler_init();
+  flashSequence_init();
+  verifySequence_init();
+  display_fillScreen(DISPLAY_BLACK);
+  simonControl_enable();
+  printf("Running the simon game.\n");
+}
 
-// void tickAll() {
-//   simonControl_tick();
-//   buttonHandler_tick();
-//   flashSequence_tick();
-//   verifySequence_tick();
-// }
-// #endif
+void tickAll() {
+  simonControl_tick();
+  buttonHandler_tick();
+  flashSequence_tick();
+  verifySequence_tick();
+}
+#endif
 
 // All programs share the same main.
 // Differences are limited to test_init() and isr_function().

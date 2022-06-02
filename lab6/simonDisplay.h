@@ -75,5 +75,4 @@ void simonDisplay_eraseAllButtons();
 // "erase" it.
 void simonDisplay_drawSquare(uint8_t regionNo, bool erase);
 
-
 #endif /* SIMONDISPLAY_H_ */
