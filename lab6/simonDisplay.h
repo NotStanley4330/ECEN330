@@ -27,8 +27,6 @@ For questions, contact Brad Hutchings or Jeff Goeders, https://ece.byu.edu/
 
 // Given coordinates from the touch pad, computes the region number.
 
-/
-
 // These are the definitions for the regions.
 #define SIMON_DISPLAY_REGION_0 0
 #define SIMON_DISPLAY_REGION_1 1
