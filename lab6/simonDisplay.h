@@ -27,22 +27,7 @@ For questions, contact Brad Hutchings or Jeff Goeders, https://ece.byu.edu/
 
 // Given coordinates from the touch pad, computes the region number.
 
-// The entire touch-screen is divided into 4 rectangular regions, numbered 0
-// - 3. Each region will be drawn with a different color. Colored buttons remind
-// the user which square is associated with each color. When you press
-// a region, computeRegionNumber returns the region number that is used
-// by the other routines.
-/*
-|----------|----------|
-|          |          |
-|    0     |     1    |
-|  (RED)   | (YELLOW) |
------------------------
-|          |          |
-|     2    |    3     |
-|  (BLUE)  |  (GREEN) |
------------------------
-*/
+/
 
 // These are the definitions for the regions.
 #define SIMON_DISPLAY_REGION_0 0

@@ -12,6 +12,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "touchHandler.h"
+#include "display.h"
+
 
 //this flag will let us know if the touch handler has been enabled or not
 static uint8_t touchHandlerEnabled = 0;
@@ -21,7 +23,15 @@ static uint8_t tocuhHandlerCompleted = 0;
 
 
 //this just gets us the half of the screen that has been touched
-uint8_t touchHandler_getRegionNumber();
+uint8_t touchHandler_getRegionNumber()
+{
+    // varaibles for coords and pressure on the screen
+    int16_t x, y;
+    uint8_t z;
+    // get the touch values from the ADC
+    display_getTouchedPoint(&x, &y, &z);
+    
+}
 
 // Turn on the state machine.
 void touchHandler_enable()
