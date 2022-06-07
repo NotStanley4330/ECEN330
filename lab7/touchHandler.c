@@ -18,7 +18,7 @@
 //this flag will let us know if the touch handler has been enabled or not
 static uint8_t touchHandlerEnabled = 0;
 //this flag lets us know if the touchHandler has finished up its state stuff
-static uint8_t tocuhHandlerCompleted = 0;
+static uint8_t touchHandlerCompleted = 0;
 
 
 
@@ -30,7 +30,7 @@ uint8_t touchHandler_getRegionNumber()
     uint8_t z;
     // get the touch values from the ADC
     display_getTouchedPoint(&x, &y, &z);
-    
+
 }
 
 // Turn on the state machine.
