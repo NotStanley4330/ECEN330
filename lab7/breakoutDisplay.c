@@ -5,6 +5,7 @@
 #include "breakoutDisplay.h"
 #include "utils.h"
 #include "display.h"
+#include "breakoutGlobals.h"
 #include <stdio.h>
 
 
@@ -81,13 +82,7 @@ We only care which side they press on to move the paddle left and right, not any
 #define DISPLAY_TEAL 0x0737
 
 
-struct ballProperties
-{
-    uint8_t xVelocity;
-    uint8_t yVelocity;
-    uint8_t xPosition;
-    uint8_t yPosition;
-};
+
 
 
 

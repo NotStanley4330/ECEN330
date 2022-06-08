@@ -13,12 +13,17 @@
 #include <stdint.h>
 #include "touchHandler.h"
 #include "display.h"
+#include "breakoutGlobals.h"
+#include "breakoutDispaly.h"
 
 
 //this flag will let us know if the touch handler has been enabled or not
 static uint8_t touchHandlerEnabled = 0;
 //this flag lets us know if the touchHandler has finished up its state stuff
 static uint8_t touchHandlerCompleted = 0;
+//this object should track the paddles properties for maintaining between states
+static objectProperties paddle;
+
 
 
 
@@ -48,7 +53,14 @@ void touchHandler_disable()
 }
 
 // Standard init function.
-void touchHandler_init();
+void touchHandler_init()
+{
+    paddle.xVelocity = 0;
+    paddle.yVelocity = 0;
+    paddle.xPosition = PADDLE_INIT_X_COORD;
+
+
+}
 
 //this returns the boolean value of a flag set by the state machine
 //this flag is set when a dispaly is untouched
