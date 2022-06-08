@@ -23,6 +23,8 @@ static uint8_t touchHandlerEnabled = 0;
 static uint8_t touchHandlerCompleted = 0;
 //this object should track the paddles properties for maintaining between states
 static struct objectProperties paddle;
+//this flag will let us know when the paddle has been released
+static uint8_t screenUnTouched = 0;
 
 
 enum touchHandler_st_t {
@@ -65,17 +67,22 @@ void touchHandler_disable()
 // Standard init function.
 void touchHandler_init()
 {
+    //set the intial values for the paddle and the sm to the initial state
     paddle.xVelocity = 0;
     paddle.yVelocity = 0;
     paddle.xPosition = PADDLE_INIT_X_COORD;
     paddle.yPosition = PADDLE_INIT_Y_COORD;
-
+    currentState = st_init;
 
 }
 
 //this returns the boolean value of a flag set by the state machine
 //this flag is set when a dispaly is untouched
-bool touchHandler_releaseDetected();
+bool touchHandler_releaseDetected()
+{
+    //just return the value of the screen untouched flag
+    return screenUnTouched;
+}
 
 // Returns wether or not the screen has been touched
 bool touchHandler_isComplete()
@@ -84,4 +91,51 @@ bool touchHandler_isComplete()
 }
 
 // Standard tick function.
-void touchHandler_tick();
+void touchHandler_tick()
+{
+    //switch case for state transitions
+    switch(currentState)
+    {
+        case st_init:
+
+            break;
+        case st_await_touch:
+
+            break;
+        case st_settle:
+
+            break;
+        case st_is_touched:
+
+            break;
+        case st_untouched:
+
+            break;
+        case st_finished:
+            
+            break;
+    }
+
+    //switch case for state actions
+    switch(currentState)
+    {
+        case st_init:
+
+            break;
+        case st_await_touch:
+
+            break;
+        case st_settle:
+
+            break;
+        case st_is_touched:
+
+            break;
+        case st_untouched:
+
+            break;
+        case st_finished:
+            
+            break;
+    }
+}
