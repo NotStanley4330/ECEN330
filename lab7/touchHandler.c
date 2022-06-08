@@ -14,7 +14,7 @@
 #include "touchHandler.h"
 #include "display.h"
 #include "breakoutGlobals.h"
-#include "breakoutDispaly.h"
+#include "breakoutDisplay.h"
 
 
 //this flag will let us know if the touch handler has been enabled or not
@@ -22,10 +22,20 @@ static uint8_t touchHandlerEnabled = 0;
 //this flag lets us know if the touchHandler has finished up its state stuff
 static uint8_t touchHandlerCompleted = 0;
 //this object should track the paddles properties for maintaining between states
-static objectProperties paddle;
+static struct objectProperties paddle;
 
 
+enum touchHandler_st_t {
+  st_init,        // the initial state of the machine
+  st_await_touch, // state for awaiting the touch of a user
+  st_settle,      // a state for the machine to wait in while the ADC settles
+  st_is_touched,  // a state that moves the paddle left or right while touched (until it hits the side of the screen)
+  st_untouched,   // a state that stops the movement of the paddle
+  st_finished     // ending state of the machine
 
+};
+
+static enum touchHandler_st_t currentState;//the actual state register for the touchhandler
 
 //this just gets us the half of the screen that has been touched
 uint8_t touchHandler_getRegionNumber()
@@ -58,6 +68,7 @@ void touchHandler_init()
     paddle.xVelocity = 0;
     paddle.yVelocity = 0;
     paddle.xPosition = PADDLE_INIT_X_COORD;
+    paddle.yPosition = PADDLE_INIT_Y_COORD;
 
 
 }
@@ -69,7 +80,7 @@ bool touchHandler_releaseDetected();
 // Returns wether or not the screen has been touched
 bool touchHandler_isComplete()
 {
-    return tocuhHandlerCompleted;
+    return touchHandlerCompleted;
 }
 
 // Standard tick function.
