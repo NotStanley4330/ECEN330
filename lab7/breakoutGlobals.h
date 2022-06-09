@@ -8,7 +8,7 @@
 
 */
 
-#include <display.h>
+#include "display.h"
 #include "xparameters.h"
 
 //custom color defintions

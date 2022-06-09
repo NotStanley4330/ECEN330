@@ -40,7 +40,7 @@ void touchHandler_tick();
 
 //this function handles the movement of the paddle from left to right taking the screen region
 //into account and can even reset the paddle to its initial position if asked to 
-touchHandler_movePaddle(uint8_t screenRegion, bool reset);
+void touchHandler_movePaddle(uint8_t screenRegion, bool reset);
 
 
 #endif //TOUCHHANDLER_H_

@@ -1,8 +1,9 @@
 /*
     File: touchHandler.h
     Author: Michael Norris
-    Date: 6/6/2022
+    Date: 6/9/2022
     Purpose: just deals with looking for touches from the screen
+    as well as movement of the paddle left and right
 
 
 
@@ -210,7 +211,7 @@ void touchHandler_tick()
 
 //this function handles the movement of the paddle from left to right taking the screen region
 //into account and can even reset the paddle to its initial position if asked to 
-touchHandler_movePaddle(uint8_t screenRegion, bool reset)
+void touchHandler_movePaddle(uint8_t screenRegion, bool reset)
 {
     if (!reset)//if we have not been asked to reset the paddle
     {
@@ -242,17 +243,17 @@ touchHandler_movePaddle(uint8_t screenRegion, bool reset)
         }
         else if (screenRegion == BREAKOUT_DISPLAY_REGION_1)//if the right side is being touched
         {
-            if (paddle.xPosition == DISPLAY_WIDTH - TILE_FIRST_X_COORD)//check if the paddle is against the right side fo the screen
+            if (paddle.xPosition + PADDLE_WIDTH == DISPLAY_WIDTH - TILE_FIRST_X_COORD)//check if the paddle is against the right side fo the screen
             {
                 //should be doing nothing if it is here
             }
             //if our movement will put the paddle beyond the edge of the screen
-            else if (paddle.xPosition + PADDLE_MOVEMENT_SPEED >= DISPLAY_WIDTH - TILE_FIRST_X_COORD)
+            else if (paddle.xPosition + PADDLE_MOVEMENT_SPEED + PADDLE_WIDTH >= DISPLAY_WIDTH - TILE_FIRST_X_COORD)
             {
                 //erase the old paddle
                 breakoutDisplay_drawPaddle(paddle.xPosition, paddle.yPosition, true);
                 //move the xPosition to be against the right edge
-                paddle.xPosition = (DISPLAY_WIDTH - TILE_FIRST_X_COORD);
+                paddle.xPosition = (DISPLAY_WIDTH - TILE_FIRST_X_COORD - PADDLE_WIDTH);
                 //redraw the paddle in the new positon
                 breakoutDisplay_drawPaddle(paddle.xPosition, paddle.yPosition, false);
             }
@@ -277,4 +278,13 @@ touchHandler_movePaddle(uint8_t screenRegion, bool reset)
         //draw in the new paddle
         breakoutDisplay_drawPaddle(paddle.xPosition, paddle.yPosition, false);
     }
+}
+
+
+
+
+struct objectProperties getPaddlePosition()
+{
+    //jsut return the paddle positon struct
+    return paddle;
 }
