@@ -20,6 +20,6 @@ struct objectProperties
 {
     uint8_t xVelocity;
     uint8_t yVelocity;
-    uint8_t xPosition;
-    uint8_t yPosition;
+    uint16_t xPosition;
+    uint16_t yPosition;
 };
