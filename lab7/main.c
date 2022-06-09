@@ -54,7 +54,7 @@ int main()
     breakoutDisplay_drawPaddle((PADDLE_INIT_X_COORD), (PADDLE_INIT_Y_COORD), 0);
     breakoutDisplay_drawNewTiles();
     breakoutDisplay_drawBall(BALL_INIT_X_COORD, BALL_INIT_Y_COORD, false);
-    breakoutDisplay_drawScore(100);
+    breakoutDisplay_drawScore(100, false);
 
 
      // Init all interrupts (but does not enable the interrupts at the devices).

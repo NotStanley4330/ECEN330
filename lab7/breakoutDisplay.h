@@ -81,7 +81,7 @@ int8_t breakoutDisplay_computeRegionNumber(int16_t x, int16_t y);
 
 uint16_t breakoutDisplay_assignColorCode(uint8_t colorNum);
 
-void breakoutDisplay_drawScore(uint32_t score);
+void breakoutDisplay_drawScore(uint32_t score, bool erase);
 
 // Draws a colored "button" that the user can touch.
 // The colored button is centered in the region but does not fill the region.

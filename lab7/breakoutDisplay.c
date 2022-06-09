@@ -90,17 +90,29 @@ We only care which side they press on to move the paddle left and right, not any
 
 
 
-void breakoutDisplay_drawScore(uint32_t score)
+void breakoutDisplay_drawScore(uint32_t score, bool erase)
 {
     char scoreString[20] = "";
-    
-    display_setCursor(SCORE_TEXT_X_COORD, SCORE_TEXT_Y_COORD);
-    display_setTextColor(DISPLAY_WHITE);
-    display_setTextSize(1);
-    display_println(SCORE_STRING);
-    display_setCursor(SCORE_X_COORD, SCORE_Y_COORD);
-    sprintf(scoreString, "%i", score);
-    display_println(scoreString);
+    if(!erase)//if we are not erasing but drawing a score
+    {
+        display_setCursor(SCORE_TEXT_X_COORD, SCORE_TEXT_Y_COORD);
+        display_setTextColor(DISPLAY_WHITE);
+        display_setTextSize(1);
+        display_println(SCORE_STRING);
+        display_setCursor(SCORE_X_COORD, SCORE_Y_COORD);
+        sprintf(scoreString, "%i", score);
+        display_println(scoreString);
+    }
+    else//if we are erasing
+    {
+        display_setCursor(SCORE_TEXT_X_COORD, SCORE_TEXT_Y_COORD);
+        display_setTextColor(DISPLAY_BLACK);
+        display_setTextSize(1);
+        display_println(SCORE_STRING);
+        display_setCursor(SCORE_X_COORD, SCORE_Y_COORD);
+        sprintf(scoreString, "%i", score);
+        display_println(scoreString);
+    }
 
 }
 
