@@ -1,4 +1,12 @@
+/*
+    File: scoreLivesTracker.c
+    Author: Michael Norris
+    Date: 6/9/2022
+    Purpose: Tracks the score and lives
 
+
+
+*/ 
 
 
 #include <stdint.h>
