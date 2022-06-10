@@ -16,6 +16,7 @@
 #define DISPLAY_TEAL 0x0737
 #define DISPLAY_PURPLE 0x8155
 
+//the actual objects we have to deal with
 struct objectProperties
 {
     uint8_t xVelocity;

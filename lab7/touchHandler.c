@@ -22,7 +22,7 @@
 #define REGION_INVALID 12
 // Since the tick happens every 100 ms and settle time for the ADC is 50 ms
 // we only have to wait one cycle
-#define ADC_SETTLED 1
+#define ADC_SETTLED 2
 //we can use this to set up a paddle movement speed in pixels per tick
 #define PADDLE_MOVEMENT_SPEED 10 //this value is subject to change
 
@@ -283,7 +283,7 @@ void touchHandler_movePaddle(uint8_t screenRegion, bool reset)
 
 
 
-struct objectProperties getPaddlePosition()
+struct objectProperties touchHandler_getPaddlePosition()
 {
     //jsut return the paddle positon struct
     return paddle;

@@ -34,7 +34,7 @@ void ballHandler_tick();
 
 //this function handles the movemement of the ball including collision
 //detection with the walls, tiles, and paddles
-void ballHandler_movePaddle(bool reset);
+void ballHandler_moveBall(bool reset);
 
 
 

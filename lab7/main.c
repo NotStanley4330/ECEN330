@@ -35,6 +35,10 @@
 // Compute timer load value.
 #define TIMER_LOAD_VALUE ((CONFIG_TIMER_PERIOD * TIMER_CLOCK_FREQUENCY) - 1.0)
 
+#define INTERRUPTS_PER_SECOND (1.0 / CONFIG_TIMER_PERIOD)
+#define TOTAL_SECONDS 45
+#define MAX_INTERRUPT_COUNT (INTERRUPTS_PER_SECOND * TOTAL_SECONDS)
+
 
 void init_all()
 {
@@ -55,6 +59,8 @@ int main()
     breakoutDisplay_drawNewTiles();
     breakoutDisplay_drawBall(BALL_INIT_X_COORD, BALL_INIT_Y_COORD, false);
     breakoutDisplay_drawScore(100, false);
+    touchHandler_enable();
+    init_all();
 
 
      // Init all interrupts (but does not enable the interrupts at the devices).
@@ -76,11 +82,16 @@ int main()
       personalInterruptCount++;
       tickAll();
       interrupts_isrFlagGlobal = 0;
-      // if (personalInterruptCount >= MAX_INTERRUPT_COUNT)
-      //   break;
+      if (personalInterruptCount >= MAX_INTERRUPT_COUNT)
+        break;
       utils_sleep();
     }
   }
+
+  interrupts_disableArmInts();
+  printf("isr invocation count: %d\n", interrupts_isrInvocationCount());
+  printf("internal interrupt count: %d\n", personalInterruptCount);
+  return 0;
 
 
 }

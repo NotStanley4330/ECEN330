@@ -42,5 +42,10 @@ void touchHandler_tick();
 //into account and can even reset the paddle to its initial position if asked to 
 void touchHandler_movePaddle(uint8_t screenRegion, bool reset);
 
+//this functionr eturns a paddle object for collision purposes
+struct objectProperties touchHandler_getPaddlePosition();
+
+
+
 
 #endif //TOUCHHANDLER_H_
