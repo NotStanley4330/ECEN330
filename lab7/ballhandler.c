@@ -140,7 +140,7 @@ void ballHandler_tick()
             //now we just wait for the machine to be turned off befor goign back to the inital state
             if (!ballHandlerEnabled)
             {
-                
+                currentState = st_init;
             }
             break;
     }

@@ -6,6 +6,7 @@
 #include "utils.h"
 #include "display.h"
 #include "breakoutGlobals.h"
+#include "tileHandler.h"
 #include <stdio.h>
 
 
@@ -206,13 +207,14 @@ void breakoutDisplay_drawNewTiles()
     uint16_t colorCode = breakoutDisplay_assignColorCode(colorNum);
 
     //this loop iterates through each row of tiles to be drawn
-    for (int i = 0; i < COLOR_NUM_CYAN + 1; i++)
+    for (uint8_t i = 0; i < TILE_ROW_NUM; i++)
     {
         colorCode = breakoutDisplay_assignColorCode(colorNum);//set the current row color
         //draw the current row
-        for (int j = 0; j < 9; j++)
+        for (uint8_t j = 0; j < TILE_COLUMN_NUM; j++)
         {
-            breakoutDisplay_drawTile(currentXCoord, currentYCoord, colorCode, 0);
+            tileHandler_createTile(i, j, currentXCoord, currentYCoord, colorCode, false);
+            //breakoutDisplay_drawTile(currentXCoord, currentYCoord, colorCode, 0);
             currentXCoord += (TILE_WIDTH + TILE_SPACER_WIDTH);
         }
         currentXCoord = TILE_FIRST_X_COORD;

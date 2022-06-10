@@ -16,6 +16,11 @@
 #define DISPLAY_TEAL 0x0737
 #define DISPLAY_PURPLE 0x8155
 
+
+//the numebr of rows and columns of tiles we are working with
+#define TILE_ROW_NUM 8
+#define TILE_COLUMN_NUM 9
+
 //the actual objects we have to deal with
 struct objectProperties
 {
@@ -23,4 +28,13 @@ struct objectProperties
     uint8_t yVelocity;
     uint16_t xPosition;
     uint16_t yPosition;
+};
+
+
+struct tileItem
+{
+    uint16_t xPosition;
+    uint16_t yPosition;
+    uint8_t isDestroyed;
+    uint16_t colorCode;
 };
