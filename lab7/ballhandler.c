@@ -19,7 +19,8 @@
 //these are the initial velocities of the ball when the game starts (it should be a 45 degree angle up to the right)
 #define BALL_INIT_X_VELOCITY 5
 #define BALL_INIT_Y_VELOCITY -5
-
+//the numebr the timer needs to hit before moving to the reset state
+#define BALL_RESET_VALUE 10
 
 
 //this flag will let us know if the machine is enabled or not
@@ -32,6 +33,8 @@ static struct objectProperties ball;
 static uint8_t ballOutOfBounds = 0;
 //this flag can be used to determine if the user is out of lives
 static uint8_t isOutOfLives = 0;
+//use this timer to wait a half a second before moving the ball back
+static uint8_t ballResetTimer= 0;
 
 
 //the actual states for the machine
@@ -112,6 +115,10 @@ void ballHandler_tick()
                 //reset to the init state
                 currentState = st_init;
             }
+            else if (isOutOfLives)
+            {
+                currentState = st_finished;
+            }
             else//otherwise
             {
                 //move right into the reset state
@@ -119,10 +126,22 @@ void ballHandler_tick()
             }
             break;
         case st_ball_reset:
-
+            if (!ballHandlerEnabled)//if we have been disabled
+            {
+                currentState = st_init;
+            }
+            else if (ballResetTimer ==  BALL_RESET_VALUE)//wait for the timer to incrememnt before starting back up the ball
+            {
+                currentState = st_ball_move;
+                ballHandlerCompleted = 1;//ball handler is now done if we ran out of lives
+            }
             break;
         case st_finished:
-
+            //now we just wait for the machine to be turned off befor goign back to the inital state
+            if (!ballHandlerEnabled)
+            {
+                
+            }
             break;
     }
 
@@ -132,6 +151,9 @@ void ballHandler_tick()
         case st_init:
             //reset all the relevant flags etc
             ballHandlerCompleted = 0;
+            ballResetTimer = 0;
+            ballOutOfBounds  = 0;
+            isOutOfLives = 0;
             break;
         case st_ball_move:
             //should just be running the ball move function every tick while active
@@ -140,7 +162,7 @@ void ballHandler_tick()
         case st_ball_out_of_play:
             //just remove a life & erase the ball
             isOutOfLives = scoreLivesTracker_removeLife();
-            breakoutDisplay_drawBall(ball.xPosition, ball.yPosition, true);
+            //breakoutDisplay_drawBall(ball.xPosition, ball.yPosition, true);
             break;
         case st_ball_reset:
             if (ballOutOfBounds)//just check this flag real quick to make sure we havent already moved the ball
@@ -150,9 +172,16 @@ void ballHandler_tick()
                 //reset the flag
                 ballOutOfBounds = 0;
             }
+            ballResetTimer++;
             break;
         case st_finished:
-
+            if (ballOutOfBounds)//just check this flag real quick to make sure we havent already moved the ball
+            {
+                //reset ball position and velocity
+                ballHandler_moveBall(true);
+                //reset the flag
+                ballOutOfBounds = 0;
+            }
             break;
     }
 }
@@ -218,8 +247,8 @@ void ballHandler_moveBall(bool reset)
         //erase the ball from its old position
         breakoutDisplay_drawBall(ball.xPosition, ball.yPosition, true);
         //reset the balls velocity to zero
-        ball.xVelocity = 0;
-        ball.yVelocity = 0;
+        ball.xVelocity = BALL_INIT_X_VELOCITY;
+        ball.yVelocity = BALL_INIT_Y_VELOCITY;
         //reset its coords to intial
         ball.xPosition = BALL_INIT_X_COORD;
         ball.yPosition = BALL_INIT_Y_COORD;
