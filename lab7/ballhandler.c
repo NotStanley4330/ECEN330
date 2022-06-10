@@ -74,7 +74,7 @@ void ballHandler_init()
 
 bool ballHandler_isComplete()
 {
-    return ballHandlerCompleted
+    return ballHandlerCompleted;
 }
 
 // Standard tick function.
@@ -146,10 +146,7 @@ void ballHandler_tick()
             if (ballOutOfBounds)//just check this flag real quick to make sure we havent already moved the ball
             {
                 //reset ball position and velocity
-                ball.xPosition = BALL_INIT_X_COORD;
-                ball.yPosition = BALL_INIT_Y_COORD;
-                ball.xVelocity = 0;
-                ball.yVelocity = 0;
+                ballHandler_moveBall(true);
                 //reset the flag
                 ballOutOfBounds = 0;
             }

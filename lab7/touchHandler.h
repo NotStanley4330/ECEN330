@@ -14,6 +14,7 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+#include "breakoutGlobals.h"
 
 
 //this just gets us the half of the screen that has been touched
@@ -42,7 +43,7 @@ void touchHandler_tick();
 //into account and can even reset the paddle to its initial position if asked to 
 void touchHandler_movePaddle(uint8_t screenRegion, bool reset);
 
-//this functionr eturns a paddle object for collision purposes
+//this function returns a paddle object for collision purposes
 struct objectProperties touchHandler_getPaddlePosition();
 
 

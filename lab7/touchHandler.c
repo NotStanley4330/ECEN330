@@ -285,6 +285,6 @@ void touchHandler_movePaddle(uint8_t screenRegion, bool reset)
 
 struct objectProperties touchHandler_getPaddlePosition()
 {
-    //jsut return the paddle positon struct
+    //just return the paddle positon struct
     return paddle;
 }
