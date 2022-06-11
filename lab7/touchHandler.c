@@ -16,6 +16,7 @@
 #include "display.h"
 #include "breakoutGlobals.h"
 #include "breakoutDisplay.h"
+#include "ballHandler.h"
 
 
 // A number that does not represent a vlauid region for debugging
@@ -132,6 +133,7 @@ void touchHandler_tick()
                 {
                     //clear old touch data out and move to waiting for the settling of the ADC
                     display_clearOldTouchData();
+                    ballHandler_enable();
                     currentState = st_settle;
                 }
             }

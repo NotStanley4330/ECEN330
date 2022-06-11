@@ -8,6 +8,10 @@
 
 */
 
+
+#ifndef BREAKOUTGLOBALS_H_
+#define BREAKOUTGLOBALS_H_
+
 #include "display.h"
 #include "xparameters.h"
 
@@ -24,17 +28,19 @@
 //the actual objects we have to deal with
 struct objectProperties
 {
-    uint8_t xVelocity;
-    uint8_t yVelocity;
-    uint16_t xPosition;
-    uint16_t yPosition;
+    int8_t xVelocity;
+    int8_t yVelocity;
+    int16_t xPosition;
+    int16_t yPosition;
 };
 
 
 struct tileItem
 {
-    uint16_t xPosition;
-    uint16_t yPosition;
+    int16_t xPosition;
+    int16_t yPosition;
     uint8_t isDestroyed;
     uint16_t colorCode;
 };
+
+#endif//BREAKOUTGLOBALS_H_

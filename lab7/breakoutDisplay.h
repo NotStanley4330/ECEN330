@@ -40,7 +40,7 @@ We only care which side they press on to move the paddle left and right, not any
 #define BALL_WIDTH_HEIGHT 8
 #define TILE_WIDTH 32
 #define TILE_HEIGHT 6
-
+#define TILE_SPACER_WIDTH 3
 
 //starting coordinates for the paddle
 #define PADDLE_INIT_X_COORD ((DISPLAY_WIDTH / SCREEN_REGION_DIVIDER) - (PADDLE_WIDTH / 2))

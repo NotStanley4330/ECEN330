@@ -28,6 +28,7 @@
 #include "breakoutDisplay.h"
 #include "xparameters.h"
 #include "touchHandler.h"
+#include "ballHandler.h"
 
 
 // Compute the timer clock freq.
@@ -44,23 +45,31 @@ void init_all()
 {
   display_init();
   touchHandler_init();
+  ballHandler_init();
+
 }
 
 void tickAll()
 {
   touchHandler_tick();
+  ballHandler_tick();
 }
 
 int main()
 {
-    
+    init_all();
     display_fillScreen(DISPLAY_BLACK);
+    
     breakoutDisplay_drawPaddle((PADDLE_INIT_X_COORD), (PADDLE_INIT_Y_COORD), 0);
     breakoutDisplay_drawNewTiles();
     breakoutDisplay_drawBall(BALL_INIT_X_COORD, BALL_INIT_Y_COORD, false);
-    breakoutDisplay_drawScore(100, false);
+    breakoutDisplay_drawScore(0, false);
+    breakoutDisplay_drawTile(TILE_FIRST_X_COORD, TILE_FIRST_Y_COORD, DISPLAY_BLACK, true);
+
+    
     touchHandler_enable();
-    init_all();
+    
+    
 
 
      // Init all interrupts (but does not enable the interrupts at the devices).

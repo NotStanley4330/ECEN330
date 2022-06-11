@@ -190,10 +190,12 @@ void breakoutDisplay_drawTile(int16_t xCoord, int16_t yCoord, uint16_t colorCode
     {
         //draw that thing
         display_fillRect(xCoord, yCoord, TILE_WIDTH, TILE_HEIGHT, colorCode);
+        printf("drawing tile at %i, %i\n", xCoord, yCoord);
     }
     else//if we are
     {
-        display_fillRect(xCoord, yCoord, TILE_WIDTH, TILE_HEIGHT, colorCode);
+        display_fillRect(xCoord, yCoord, TILE_WIDTH, TILE_HEIGHT, DISPLAY_BLACK);
+         printf("erasing tile at %i, %i\n", xCoord, yCoord);
     }
 }
 
@@ -213,7 +215,7 @@ void breakoutDisplay_drawNewTiles()
         //draw the current row
         for (uint8_t j = 0; j < TILE_COLUMN_NUM; j++)
         {
-            tileHandler_createTile(i, j, currentXCoord, currentYCoord, colorCode, false);
+            tileHandler_createTile(i, j, currentXCoord, currentYCoord, colorCode, 0);
             //breakoutDisplay_drawTile(currentXCoord, currentYCoord, colorCode, 0);
             currentXCoord += (TILE_WIDTH + TILE_SPACER_WIDTH);
         }

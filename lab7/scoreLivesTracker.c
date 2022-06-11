@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include "breakoutDisplay.h"
+#include "scoreLivesTracker.h"
 
 //the number of lives the player will start with
 #define PLAYER_INIT_LIVES 3

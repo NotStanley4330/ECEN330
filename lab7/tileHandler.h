@@ -23,4 +23,7 @@ void tileHandler_createTile(uint8_t row, uint8_t column, int16_t xCoord, int16_t
 bool tileHandler_checkForTile(int16_t xCoord, int16_t yCoord);
 
 //this function will destroy the tile
-void DestroyTile(uint8_t row, uint8_t column);
+void tileHandler_destroyTile(int8_t row, int8_t column);
+
+//check if there are tiles left every tick
+bool tileHandler_tilesLeftUnDestroyed();

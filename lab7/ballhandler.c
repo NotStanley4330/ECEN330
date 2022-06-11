@@ -15,6 +15,8 @@
 #include "breakoutDisplay.h"
 #include "touchHandler.h"
 #include "scoreLivesTracker.h"
+#include "tileHandler.h"
+
 
 //these are the initial velocities of the ball when the game starts (it should be a 45 degree angle up to the right)
 #define BALL_INIT_X_VELOCITY 5
@@ -160,7 +162,7 @@ void ballHandler_tick()
             ballHandler_moveBall(false);
             break;
         case st_ball_out_of_play:
-            //just remove a life & erase the ball
+            //just remove a lifeDISPLAY_BLACK & erase the ball
             isOutOfLives = scoreLivesTracker_removeLife();
             //breakoutDisplay_drawBall(ball.xPosition, ball.yPosition, true);
             break;
@@ -195,11 +197,37 @@ void ballHandler_moveBall(bool reset)
         //we need to retrieve a paddle object to check the collision
         struct objectProperties paddleLocation = touchHandler_getPaddlePosition();
         //we need to check for tons of imminent collisions
+        
+        //we want to check if it is in the tile area before running any of these checks
+        if((ball.yPosition -  BALL_WIDTH_HEIGHT + ball.yVelocity <= (TILE_FIRST_Y_COORD + (TILE_ROW_NUM * (TILE_HEIGHT + TILE_SPACER_WIDTH )))) &&
+            ball.yPosition - BALL_WIDTH_HEIGHT + ball.yVelocity > TILE_FIRST_Y_COORD)
+        {
+            //check the velocity if it is positive or negative y
+            if(ball.yVelocity < 0)
+            {
+                if (tileHandler_checkForTile((ball.xPosition - BALL_WIDTH_HEIGHT + ball.xVelocity), (ball.yPosition - BALL_WIDTH_HEIGHT + ball.yVelocity)) ||
+                tileHandler_checkForTile((ball.xPosition + BALL_WIDTH_HEIGHT + ball.xPosition), (ball.yPosition - BALL_WIDTH_HEIGHT + ball.yVelocity)))
+                {
+                    ball.yVelocity = ball.yVelocity * (-1);
+                }
+            }
+            else//if it is positive y the ball is coming down
+            {
+                if (tileHandler_checkForTile((ball.xPosition - BALL_WIDTH_HEIGHT + ball.xVelocity), (ball.yPosition + BALL_WIDTH_HEIGHT + ball.yVelocity)) ||
+                tileHandler_checkForTile((ball.xPosition + BALL_WIDTH_HEIGHT + ball.xPosition), (ball.yPosition + BALL_WIDTH_HEIGHT + ball.yVelocity)))
+                {
+                    ball.yVelocity = ball.yVelocity * (-1);
+                }
+            }
+        }
+        //first check for if a tile is hitting a wall
         if(ball.xPosition - BALL_WIDTH_HEIGHT + ball.xVelocity <= TILE_FIRST_X_COORD || ball.xPosition + BALL_WIDTH_HEIGHT + ball.xVelocity >= DISPLAY_WIDTH - TILE_FIRST_X_COORD)//if it is hitting against the left or right wall
         {
             //we will just want to invert the xVelocity to get it to bounce off at a correct angle
             ball.xVelocity = ball.xVelocity * (-1);
         }
+        
+        
         if(ball.yPosition - BALL_WIDTH_HEIGHT + ball.yVelocity <= TILE_FIRST_Y_COORD)//if it is hitting the ceiling
         {
             //we should just be able to invert the x coordinate 
@@ -233,10 +261,13 @@ void ballHandler_moveBall(bool reset)
         else
         {
             //erase the old ball
+            //printf("old ball positon: %i, %i\n", ball.xPosition, ball.yPosition);
             breakoutDisplay_drawBall(ball.xPosition, ball.yPosition, true);
             //adjust ball positon by the current velocity
             ball.xPosition = ball.xPosition + ball.xVelocity;
             ball.yPosition = ball.yPosition + ball.yVelocity;
+
+            //printf("new ball position: %i, %i\n", ball.xPosition, ball.yPosition);
             //redraw the ball in the new location
             breakoutDisplay_drawBall(ball.xPosition, ball.yPosition, false);
 
