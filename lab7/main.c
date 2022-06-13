@@ -15,7 +15,6 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-
 #include "buttons.h"
 #include "config.h"
 #include "display.h"
@@ -29,6 +28,7 @@
 #include "xparameters.h"
 #include "touchHandler.h"
 #include "ballHandler.h"
+#include "scoreLivesTracker.h"
 
 
 // Compute the timer clock freq.
@@ -64,7 +64,8 @@ int main()
     breakoutDisplay_drawNewTiles();
     breakoutDisplay_drawBall(BALL_INIT_X_COORD, BALL_INIT_Y_COORD, false);
     breakoutDisplay_drawScore(0, false);
-    breakoutDisplay_drawTile(TILE_FIRST_X_COORD, TILE_FIRST_Y_COORD, DISPLAY_BLACK, true);
+    //breakoutDisplay_drawTile(TILE_FIRST_X_COORD, TILE_FIRST_Y_COORD, DISPLAY_BLACK, true);
+    breakoutDisplay_drawLives(3, false);
 
     
     touchHandler_enable();
@@ -86,14 +87,16 @@ int main()
   // Enable interrupts at the ARM.
   interrupts_enableArmInts();
   while (1) {
-    if (interrupts_isrFlagGlobal) {
+    if (interrupts_isrFlagGlobal) 
+    {
       // Count ticks.
+      printf("tick\n");
       personalInterruptCount++;
       tickAll();
       interrupts_isrFlagGlobal = 0;
-      if (personalInterruptCount >= MAX_INTERRUPT_COUNT)
-        break;
-      utils_sleep();
+      // if (personalInterruptCount >= MAX_INTERRUPT_COUNT)
+      //   break;
+      //utils_sleep();
     }
   }
 

@@ -19,10 +19,10 @@
 
 
 //these are the initial velocities of the ball when the game starts (it should be a 45 degree angle up to the right)
-#define BALL_INIT_X_VELOCITY 5
-#define BALL_INIT_Y_VELOCITY -5
+#define BALL_INIT_X_VELOCITY 10
+#define BALL_INIT_Y_VELOCITY -10
 //the numebr the timer needs to hit before moving to the reset state
-#define BALL_RESET_VALUE 10
+#define BALL_RESET_VALUE 5
 
 
 //this flag will let us know if the machine is enabled or not
@@ -109,6 +109,7 @@ void ballHandler_tick()
             {
                 //move to the out of play state
                 currentState = st_ball_out_of_play;
+                
             }
             break;
         case st_ball_out_of_play:
@@ -119,6 +120,7 @@ void ballHandler_tick()
             }
             else if (isOutOfLives)
             {
+                printf("moving to finished state\n");
                 currentState = st_finished;
             }
             else//otherwise
@@ -135,15 +137,21 @@ void ballHandler_tick()
             else if (ballResetTimer ==  BALL_RESET_VALUE)//wait for the timer to incrememnt before starting back up the ball
             {
                 currentState = st_ball_move;
+                ballResetTimer = 0;
                 ballHandlerCompleted = 1;//ball handler is now done if we ran out of lives
             }
             break;
         case st_finished:
-            //now we just wait for the machine to be turned off befor goign back to the inital state
+            //now we just wait for the machine to be turned off before going back to the inital state
             if (!ballHandlerEnabled)
             {
                 currentState = st_init;
             }
+            else
+            {
+                currentState = st_init;//move back t the inital state to try again
+            }
+
             break;
     }
 
@@ -175,6 +183,7 @@ void ballHandler_tick()
                 ballOutOfBounds = 0;
             }
             ballResetTimer++;
+            printf("ball_reset timer is %i\n", ballResetTimer);//gotta check what is going on
             break;
         case st_finished:
             if (ballOutOfBounds)//just check this flag real quick to make sure we havent already moved the ball
@@ -183,6 +192,11 @@ void ballHandler_tick()
                 ballHandler_moveBall(true);
                 //reset the flag
                 ballOutOfBounds = 0;
+                //reset score and lives
+                scoreLivesTracker_resetLives();
+                socreLivesTracker_resetScore();
+                //redraw all the tiles
+                breakoutDisplay_drawNewTiles();
             }
             break;
     }
@@ -198,6 +212,12 @@ void ballHandler_moveBall(bool reset)
         struct objectProperties paddleLocation = touchHandler_getPaddlePosition();
         //we need to check for tons of imminent collisions
         
+        //first check for if a tile is hitting a wall
+        if(ball.xPosition - BALL_WIDTH_HEIGHT + ball.xVelocity <= TILE_FIRST_X_COORD || ball.xPosition + BALL_WIDTH_HEIGHT + ball.xVelocity >= DISPLAY_WIDTH - TILE_FIRST_X_COORD)//if it is hitting against the left or right wall
+        {
+            //we will just want to invert the xVelocity to get it to bounce off at a correct angle
+            ball.xVelocity = ball.xVelocity * (-1);
+        }
         //we want to check if it is in the tile area before running any of these checks
         if((ball.yPosition -  BALL_WIDTH_HEIGHT + ball.yVelocity <= (TILE_FIRST_Y_COORD + (TILE_ROW_NUM * (TILE_HEIGHT + TILE_SPACER_WIDTH )))) &&
             ball.yPosition - BALL_WIDTH_HEIGHT + ball.yVelocity > TILE_FIRST_Y_COORD)
@@ -220,12 +240,7 @@ void ballHandler_moveBall(bool reset)
                 }
             }
         }
-        //first check for if a tile is hitting a wall
-        if(ball.xPosition - BALL_WIDTH_HEIGHT + ball.xVelocity <= TILE_FIRST_X_COORD || ball.xPosition + BALL_WIDTH_HEIGHT + ball.xVelocity >= DISPLAY_WIDTH - TILE_FIRST_X_COORD)//if it is hitting against the left or right wall
-        {
-            //we will just want to invert the xVelocity to get it to bounce off at a correct angle
-            ball.xVelocity = ball.xVelocity * (-1);
-        }
+        
         
         
         if(ball.yPosition - BALL_WIDTH_HEIGHT + ball.yVelocity <= TILE_FIRST_Y_COORD)//if it is hitting the ceiling

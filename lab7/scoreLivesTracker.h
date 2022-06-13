@@ -29,5 +29,11 @@ void scoreLivesTracker_addLife();
 //bool of true that lives have run out
 bool scoreLivesTracker_removeLife();
 
+//this function simply takes the lives counter and resets it to 3
+void scoreLivesTracker_resetLives();
+
+//this function takes the score and resets it to zero
+void socreLivesTracker_resetScore();
+
 
 #endif //SCORELIVESTRACKER_H_

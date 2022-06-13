@@ -26,7 +26,7 @@
 // };
 
 //this will be a 2d struct that tracks all the tiles on the board
-static struct tileItem tiles[TILE_ROW_NUM][TILE_ROW_NUM];
+static struct tileItem tiles[TILE_ROW_NUM][TILE_COLUMN_NUM];
 
 
 
@@ -48,8 +48,8 @@ void tileHandler_createTile(uint8_t row, uint8_t column, int16_t xCoord, int16_t
 //this function will check for a tile existing based on coordinates
 bool tileHandler_checkForTile(int16_t xCoord, int16_t yCoord)
 {
-    int8_t row = 0;
-    int8_t column = 0;;//these will store the variables of the tile that it was found colliding with
+    int8_t row = TILE_ROW_NUM;
+    int8_t column = TILE_COLUMN_NUM;;//these will store the variables of the tile that it was found colliding with
     //first check row then tile, this should be more efficient then checkign every single tile
     for(int i = 0; i < TILE_ROW_NUM; i++)
     {
@@ -57,7 +57,7 @@ bool tileHandler_checkForTile(int16_t xCoord, int16_t yCoord)
         printf("current values are ycoord: %i, tiles.yPos: %i\n", yCoord, tiles[i][1].yPosition);
         if (yCoord >= tiles[i][1].yPosition && yCoord <= (tiles[i][1].yPosition + TILE_HEIGHT + TILE_SPACER_WIDTH))
         {
-            printf("row = %i\n", row);
+            //printf("row = %i\n", row);
             row = (int8_t)i;
             break;
         }
@@ -75,12 +75,19 @@ bool tileHandler_checkForTile(int16_t xCoord, int16_t yCoord)
         }
     }
 
+    
+
     //now check that the tile still exists (hasnt been destroyed/was generated in the round)
     if (!(tiles[row][column].isDestroyed))
     {
         //printf("destroying tile at row: %i column:%i\n", row, column);
         //destroy the tile and tell the ball bouncing function that it exists
-        tileHandler_destroyTile(row, column);
+
+        //try to make sure it destroys the tile below first
+        
+            tileHandler_destroyTile(row, column);
+        
+        
         return true;
     }
     else//if it has been destroyed already let the ballHandler know
@@ -94,6 +101,10 @@ void tileHandler_destroyTile(int8_t row, int8_t column)
 {
     printf("destroying tile at row: %i column: %i\n", row, column);
     //erase the tile from existence
+    if(column > TILE_COLUMN_NUM || row > TILE_ROW_NUM)//exit the function early if we overran our column or tile numbers
+    {
+        return;
+    }
     breakoutDisplay_drawTile(tiles[row][column].xPosition, tiles[row][column].yPosition, DISPLAY_BLACK, true);
     //set is destroyed to true
     tiles[row][column].isDestroyed = 1;

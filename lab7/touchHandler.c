@@ -25,7 +25,7 @@
 // we only have to wait one cycle
 #define ADC_SETTLED 2
 //we can use this to set up a paddle movement speed in pixels per tick
-#define PADDLE_MOVEMENT_SPEED 10 //this value is subject to change
+#define PADDLE_MOVEMENT_SPEED 20 //this value is subject to change
 
 
 //this flag will let us know if the touch handler has been enabled or not

@@ -45,7 +45,7 @@ void scoreLivesTracker_addTileScore()
     playerScore = playerScore + TILE_BREAK_SCORE;
     //redraw the new score
     breakoutDisplay_drawScore(playerScore, false);
-    if (playerScore % EXTRA_LIFE_THERSHOLD)//if we have hit a multiple of EXTRA_LIFE_SCORE
+    if (!(playerScore % EXTRA_LIFE_THERSHOLD))//if we have hit a multiple of EXTRA_LIFE_SCORE
     {
         scoreLivesTracker_addLife();
     }
@@ -60,7 +60,7 @@ void scoreLivesTracker_addLevelScore()
     playerScore = playerScore + LEVEL_CLEAR_SCORE;
     //redraw the new score
     breakoutDisplay_drawScore(playerScore, false);
-    if (playerScore % EXTRA_LIFE_THERSHOLD)//if we have hit a multiple of EXTRA_LIFE_SCORE
+    if (!(playerScore % EXTRA_LIFE_THERSHOLD))//if we have hit a multiple of EXTRA_LIFE_SCORE
     {
         scoreLivesTracker_addLife();
     }
@@ -69,8 +69,12 @@ void scoreLivesTracker_addLevelScore()
 //this function is for adding a life
 void scoreLivesTracker_addLife()
 {
+    //first we wanna erase the old lives value
+    breakoutDisplay_drawLives(livesRemaining, true);
     //just add a life
     livesRemaining++;
+    //now draw the new lives value
+    breakoutDisplay_drawLives(livesRemaining, false);
 }
 
 //this funtion is for subtracting a life, if there are already no lives you should return a 
@@ -79,11 +83,37 @@ bool scoreLivesTracker_removeLife()
 {
     if (livesRemaining > 0)
     {
-        livesRemaining--;
+        //first we wanna erase the old lives value
+        breakoutDisplay_drawLives(livesRemaining, true);
+        livesRemaining--;//now decrement it
+        //now draw the new lives value
+        breakoutDisplay_drawLives(livesRemaining, false);
         return false;//the player is not out of lives if they have at least one left
     }
     else
     {
         return true;//they are out of lives and the game should handle that
     }
+}
+
+
+//this function simply takes the lives counter and resets it to 3
+void scoreLivesTracker_resetLives()
+{
+    //first we wanna erase the old lives value
+        breakoutDisplay_drawLives(livesRemaining, true);
+        livesRemaining = PLAYER_INIT_LIVES;//now reset it
+        //now draw the new lives value
+        breakoutDisplay_drawLives(livesRemaining, false);
+}
+
+//this function takes the score and resets it to zero
+void socreLivesTracker_resetScore()
+{
+    //erase the old score
+    breakoutDisplay_drawScore(playerScore, true);
+    //reset to zero
+    playerScore = 0;
+    //redraw the new score
+    breakoutDisplay_drawScore(playerScore, false);
 }

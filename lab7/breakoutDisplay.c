@@ -67,6 +67,13 @@ We only care which side they press on to move the paddle left and right, not any
 
 //score string
 #define SCORE_STRING "SCORE: "
+#define LIVES_STRING "LIVES: "
+
+//lives defs
+#define LIVES_TEXT_X_COORD 20
+#define LIVES_TEXT_Y_COORD 3
+#define LIVES_VALUE_X_COORD (LIVES_TEXT_X_COORD + 40)
+#define LIVES_VALUE_Y_COORD LIVES_TEXT_Y_COORD
 
 //color number deifinitons
 #define COLOR_NUM_BLUE 0
@@ -113,6 +120,33 @@ void breakoutDisplay_drawScore(uint32_t score, bool erase)
         display_setCursor(SCORE_X_COORD, SCORE_Y_COORD);
         sprintf(scoreString, "%i", score);
         display_println(scoreString);
+    }
+
+}
+
+
+void breakoutDisplay_drawLives(uint32_t lives, bool erase)
+{
+    char livesString[20] = "";
+    if(!erase)//if we are not erasing but drawing a score
+    {
+        display_setCursor(LIVES_TEXT_X_COORD, LIVES_TEXT_Y_COORD);
+        display_setTextColor(DISPLAY_WHITE);
+        display_setTextSize(1);
+        display_println(LIVES_STRING);
+        display_setCursor(LIVES_VALUE_X_COORD, LIVES_VALUE_Y_COORD);
+        sprintf(livesString, "%i", lives);
+        display_println(livesString);
+    }
+    else//if we are erasing
+    {
+        display_setCursor(LIVES_TEXT_X_COORD, LIVES_TEXT_Y_COORD);
+        display_setTextColor(DISPLAY_BLACK);
+        display_setTextSize(1);
+        display_println(LIVES_STRING);
+        display_setCursor(LIVES_VALUE_X_COORD, LIVES_VALUE_Y_COORD);
+        sprintf(livesString, "%i", lives);
+        display_println(livesString);
     }
 
 }
@@ -190,12 +224,12 @@ void breakoutDisplay_drawTile(int16_t xCoord, int16_t yCoord, uint16_t colorCode
     {
         //draw that thing
         display_fillRect(xCoord, yCoord, TILE_WIDTH, TILE_HEIGHT, colorCode);
-        printf("drawing tile at %i, %i\n", xCoord, yCoord);
+        //printf("drawing tile at %i, %i\n", xCoord, yCoord);
     }
     else//if we are
     {
         display_fillRect(xCoord, yCoord, TILE_WIDTH, TILE_HEIGHT, DISPLAY_BLACK);
-         printf("erasing tile at %i, %i\n", xCoord, yCoord);
+        // printf("erasing tile at %i, %i\n", xCoord, yCoord);
     }
 }
 

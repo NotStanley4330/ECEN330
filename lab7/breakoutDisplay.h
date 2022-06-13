@@ -74,14 +74,28 @@ We only care which side they press on to move the paddle left and right, not any
 #define DISPLAY_TEAL 0x0737
 #define DISPLAY_PURPLE 0x8155
 
+#define LIVES_STRING "LIVES: "
+
+//lives defs
+#define LIVES_TEXT_X_COORD 20
+#define LIVES_TEXT_Y_COORD 3
+#define LIVES_VALUE_X_COORD (LIVES_TEXT_X_COORD + 40)
+#define LIVES_VALUE_Y_COORD LIVES_TEXT_Y_COORD
 
 
 
+
+//this functions gets our touched region number
 int8_t breakoutDisplay_computeRegionNumber(int16_t x, int16_t y);
 
+//this function returns a hex colorCode for the given 1 digit color code
 uint16_t breakoutDisplay_assignColorCode(uint8_t colorNum);
 
+//thie function draws and erases the current score
 void breakoutDisplay_drawScore(uint32_t score, bool erase);
+
+//this function draws and erases ther current lives value
+void breakoutDisplay_drawLives(uint32_t lives, bool erase);
 
 // Draws a colored "button" that the user can touch.
 // The colored button is centered in the region but does not fill the region.
